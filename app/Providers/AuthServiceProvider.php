@@ -22,10 +22,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-          Gate::before(function ($user, $ability) {
+        Gate::before(function ($user, $ability) {
             if ($user->hasRole('root')) {
                 return true;
             }
+        });
+
+        Gate::define('hasRole', function ($user, $roleId) {
+            return $user->roles->contains('id', $roleId);
         });
     }
 }

@@ -3,20 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\FormHelper;
 use App\Http\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRoleRequest;
 use Exception;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 
 class RolesController extends Controller
 {
     public $field,
         $search,
-        $permission,
-        $_setpermission = 'roles',
         $paginate = 20;
+
+    public $permission,
+        $live_permission = 'roles_',
+        $_setpermission = 'roles';
 
     public function __construct()
     {
@@ -31,46 +35,14 @@ class RolesController extends Controller
 
     public function index()
     {
-        // permission check
-        $this->checkPermission($this->permission['create']);
-        // prepare the query fields
-        $filter = Helper::getArrayMerge($this->field);
-        // Not include deleted
-        $filter = array_values(array_diff($filter, ['deleted_at']));
+        $this->checkPermission($this->permission['list']);
+        $permission = $this->permission;
+        $livePermission = $this->getLivePermission($this->live_permission);
+        $breadcrumbs = FormHelper::getBreadcrumb();
+        $title = 'Role';
+        $total = Role::count();
+        return view('roles.index', compact('permission', 'breadcrumbs', 'title', 'total', 'livePermission'));
 
-        // prepare for table and pagination
-        $roles = $this->getSearchData(null, $filter);
-        $respond = [
-            'allow_permissions' => $this->permission,
-            'search' => $this->search,
-            'paginate' => $roles,
-        ];
-        return view('roles.index', compact('respond'));
-    }
-
-    public function search(Request $request)
-    {
-        // permission check
-        $this->checkPermission($this->permission['create']);
-        // request search data
-        $this->search = [
-            'search' => $request->search,
-            'include_deleted' => $request->include_deleted,
-        ];
-        // prepare the query fields
-        $filter = Helper::getArrayMerge($this->field);
-        // Not include deleted
-        $filter = array_values(array_diff($filter, ['deleted_at']));
-        // prepare for table, pagination and append search data
-        $roles = $this->getSearchData($request, $filter);
-        $roles->appends($this->search);
-
-        $respond = [
-            'allow_permissions' => $this->permission,
-            'search' => $this->search,
-            'paginate' => $roles,
-        ];
-        return view('roles.index', compact('respond'));
     }
 
     public function create()
@@ -199,27 +171,17 @@ class RolesController extends Controller
         }
     }
 
-    private function getSearchData($request = null, array $field)
+    public function restore(string $id)
     {
-        $status = $this->getStatus();
-        $query = Role::select($field);
-        if ($status) {
-            // Not include createdBy and updatedBy
-            // $query = Role::select($field)->with('createdBy', 'updatedBy');
-            $query = Role::select($field);
-        }
-
-        if ($request) {
-            if ($request->include_deleted == 1) {
-                // $query->withTrashed();
-            }
-
-            if ($request->search) {
-                $query->where('name', 'LIKE', "%$request->search%");
-            }
-        }
-
-        return $query->orderBy('id', 'desc')->paginate($this->paginate);
+        $role = Role::withTrashed()->findOrFail($id);
+        $this->checkPermission($this->permission['restore'], $role);
+        $role->restore();
+        return redirect()
+            ->route('roles.index')
+            ->with([
+                'message' => 'Role ID ' . $id . ' restored successfully.',
+                'style' => 'success',
+            ]);
     }
 
     private function checkPermission($permission, $data = null)
@@ -232,14 +194,11 @@ class RolesController extends Controller
         $this->permission = config('roles.permissions')[$permission];
     }
 
-    private function getStatus(): bool
+    private function getLivePermission($role)
     {
-        return auth()
-            ->user()
-            ->hasPermissionTo($this->permission['status']) ||
-            auth()
-            ->user()
-            ->hasRole('super-admin');
+        return auth()->user()->getAllPermissions()
+        ->pluck('name')
+        ->filter(fn ($permission) => Str::startsWith($permission, $role))->toArray() ?? [];
     }
 }
 

@@ -5,10 +5,14 @@ import typography from '@tailwindcss/typography';
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './vendor/laravel/jetstream/**/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
+        "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
+        "./vendor/laravel/jetstream/**/*.blade.php",
+        "./storage/framework/views/*.php",
+        "./resources/views/**/*.blade.php",
+        "./node_modules/flowbite/**/*.js",
+        "./resources/views/**/*.blade.php",
+        "./resources/**/*.js",
+        "./resources/**/*.css",
     ],
 
     theme: {
@@ -18,6 +22,14 @@ export default {
             },
         },
     },
+    darkMode: 'class',
 
-    plugins: [forms, typography],
+    plugins: [
+        forms,
+        typography,
+        require("@tailwindcss/forms"),
+        require("flowbite/plugin")({
+            charts: true,
+        }),
+    ],
 };

@@ -4,7 +4,8 @@
 'is_search' => false,
 'is_search_period',
 'is_search_show',
-'is_search_component'
+'is_search_component',
+'is_deleted_show'
 ])
 
 <div>
@@ -51,8 +52,7 @@
                 </button>
 
                 {{-- Create button --}}
-                <x-search-draw :is_search_show="$is_search_show" :is_search_period="$is_search_period" :is_search_component="$is_search_component">
-                </x-search-draw>
+                <x-search-draw :is_deleted_show="$is_deleted_show" :is_search_show="$is_search_show" :is_search_period="$is_search_period" :is_search_component="$is_search_component"/>
                 @endif
 
                 <div class="ml-2">
