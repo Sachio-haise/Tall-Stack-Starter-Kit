@@ -1,6 +1,6 @@
 # PKT-Backend
 
-PKT backend for user management
+Tall-stack for start project quickly
 
 ## Installation
 ```bash
