@@ -13,7 +13,7 @@ class Index extends Component
     use WithPagination;
     #[Locked]
     public $id;
-    public $field = ['id', 'name', 'created_at', 'updated_at', 'deleted_at'];
+    public $field = ['id', 'name', 'created_at', 'updated_at'];
 
     // Show search and controls
     public $is_search;

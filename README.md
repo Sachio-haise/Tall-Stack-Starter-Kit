@@ -10,7 +10,7 @@ git clone https://github.com/Sachio-haise/Tall-Stack-Starter-Kit
 ## Usage
 file copy
 ```bash
-copy .env-example to .env
+cp .env-example to .env
 ```
 install library
 ```bash
