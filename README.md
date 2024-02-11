@@ -1,6 +1,6 @@
 # Tall-Stack-Starter-Kit
 
-Tall-stack for start project quickly
+Tall-stack for start project quickly (dynamic interfaces using server-side rendering)
 
 ## Installation
 ```bash
