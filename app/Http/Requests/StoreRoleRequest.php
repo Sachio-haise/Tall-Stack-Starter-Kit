@@ -21,10 +21,12 @@ class StoreRoleRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules =[
             'name' => 'required|lowercase',
             'permission' => 'nullable',
         ];
+
+        return $rules;
     }
 
     public function messages()

@@ -44,6 +44,32 @@
                             </div>
                         </x-slot>
                     </x-dropdown>
+                    <x-dropdown align="left" width="50">
+                        <x-slot name="trigger">
+                            <span class="inline-flex rounded-md">
+                                <button class="inline-flex items-center rounded-md border border-transparent bg-white px-1 text-xs font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50  md:py-2 md:text-sm lg:px-3" type="button">
+                                    {{ __('Data Management') }}
+                                    <svg class="-mr-0.5 h-4 w-4 md:ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                    </svg>
+                                </button>
+                            </span>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <div class="w-60">
+                                <!-- Content Management -->
+                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                    {{ __('Item Management') }}
+                                </div>
+                                @can('roles_list')
+                                <x-dropdown-link href="{{ route('items.index') }}" :active="request()->routeIs('dashboard')">
+                                    {{ __('Item') }}
+                                </x-dropdown-link>
+                                @endcan
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
                 </div>
             </div>
 

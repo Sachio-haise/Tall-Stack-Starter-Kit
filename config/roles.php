@@ -9,5 +9,13 @@
             'restore' => 'roles_restore',
             'status' => 'roles_status',
         ],
+        'items' => [
+            'list' => 'items_list',
+            'create' => 'items_create',
+            'edit' => 'items_edit',
+            'delete' => 'items_delete',
+            'restore' => 'items_restore',
+            'status' => 'items_status',
+        ],
     ],
  ];

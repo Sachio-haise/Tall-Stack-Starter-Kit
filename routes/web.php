@@ -32,4 +32,10 @@ Route::resource('roles', Admin\RolesController::class, ['parameters' => ['roles'
     Route::controller(Admin\RolesController::class)->group(function () {
         Route::any('roles/search', 'search')->name('roles.search');
         Route::get('roles/{id}/restore', 'restore')->name('roles.restore');
-    });
+});
+
+Route::resource('items', Admin\ItemController::class, ['parameters' => ['items' => 'id'], 'except' => ['show']]);
+Route::controller(Admin\ItemController::class)->group(function () {
+    Route::any('items/search', 'search')->name('items.search');
+    Route::get('items/{id}/restore', 'restore')->name('items.restore');
+});
