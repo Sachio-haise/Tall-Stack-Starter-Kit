@@ -10,23 +10,32 @@ git clone https://github.com/Sachio-haise/Tall-Stack-Starter-Kit
 ## Usage
 file copy
 ```bash
-cp .env-example to .env
+ cp .env.example .env
 ```
+
 install library
 ```bash
 composer install   
 ```
+
 generate key
 ```bash
 php artisan key:generate
 ```
+
 for style running
 ```bash
 npm install
 ```
+
 ```bash
 npm run dev 
 ```
+
+```bash
+php artisan serve
+```
+
 if you want to use docker install [Sail](https://laravel.com/docs/10.x/sail)
 ```bash
 ./vendor/bin/sail up -d
