@@ -23,15 +23,17 @@ generate key
 php artisan key:generate
 ```
 
-for style running
+node modules install
 ```bash
 npm install
 ```
 
+start run node
 ```bash
 npm run dev 
 ```
 
+start run php
 ```bash
 php artisan serve
 ```
